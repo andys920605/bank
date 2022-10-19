@@ -8,8 +8,9 @@ postgres:
 createdb:
 	docker exec -it postgres12 createdb --username=root --owner=root simple_bank 
 
-createSchema:
-	docker exec -it postgres12 psql -U root \connect simple123;CREATE SCHEMA v3;exit
+# 選擇DB: \connect simple123;  創建SCHEMA: CREATE SCHEMA v3
+postgresTerminal:
+	docker exec -it postgres12 psql -U root 
 
 dropdb:
 	docker exec -it postgres12 dropdb simple_bank
