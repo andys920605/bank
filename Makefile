@@ -1,4 +1,4 @@
-POSTGRES_DB_SCHEMA := v1
+POSTGRES_DB_SCHEMA := public
 
 
 
