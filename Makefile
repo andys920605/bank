@@ -25,5 +25,7 @@ sqlc:
 	docker run --rm -v D:\bank\simplebank:/src -w /src kjconroy/sqlc generate
 test:
 	go test -v -cover ./...
+server:
+	go run main.go
 
-.PHONY:postgres createdb dropdb migrateup migratedown sqlc test createSchema
+.PHONY:postgres createdb dropdb migrateup migratedown sqlc test postgresTerminal server

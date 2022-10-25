@@ -11,4 +11,6 @@ packages:
     emit_exact_table_names: false
     emit_result_struct_pointers : false
     emit_params_struct_pointers : false
+    emit_empty_slices: true
+
 
