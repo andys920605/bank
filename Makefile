@@ -27,5 +27,7 @@ test:
 	go test -v -cover ./...
 server:
 	go run main.go
+mock:
+	mockgen -package mock -destination db/mock/store.go bank/db/sqlc Store
 
-.PHONY:postgres createdb dropdb migrateup migratedown sqlc test postgresTerminal server
+.PHONY:postgres createdb dropdb migrateup migratedown sqlc test postgresTerminal server mock
