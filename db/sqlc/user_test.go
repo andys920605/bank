@@ -10,37 +10,38 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func createRandomAccount(t *testing.T) Account {
-	user := createRandomUser(t)
-	arg := CreateAccountParams{
-		Owner:    user.Username,
-		Balance:  util.RandomMoney(),
-		Currency: util.RandomCurrency(),
+func createRandomUser(t *testing.T) User {
+	arg := CreateUserParams{
+		Username:       util.RandomOwner(),
+		HashedPassword: "secret",
+		FullName:       util.RandomOwner(),
+		Email:          util.RandomEmail(),
 	}
-	account, err := testQueries.CreateAccount(context.Background(), arg)
+	user, err := testQueries.CreateUser(context.Background(), arg)
 	require.NoError(t, err)
-	require.NotEmpty(t, account)
-	require.Equal(t, arg.Owner, account.Owner)
-	require.Equal(t, arg.Balance, account.Balance)
-	require.Equal(t, arg.Currency, account.Currency)
-	require.NotZero(t, account.ID)
-	require.NotZero(t, account.CreatedAt)
-	return account
+	require.NotEmpty(t, user)
+	require.Equal(t, arg.Username, user.Username)
+	require.Equal(t, arg.HashedPassword, user.HashedPassword)
+	require.Equal(t, arg.FullName, user.FullName)
+	require.Equal(t, arg.Email, user.Email)
+	require.True(t, user.PasswordChangedAt.IsZero())
+	require.NotZero(t, user.CreatedAt)
+	return user
 }
 
-func TestCreateAccount(t *testing.T) {
-	createRandomAccount(t)
+func TestCreateUser(t *testing.T) {
+	createRandomUser(t)
 }
 
-func TestGetAccount(t *testing.T) {
-	account1 := createRandomAccount(t)
-	account2, err := testQueries.GetAccount(context.Background(), account1.ID)
+func TestGetUser(t *testing.T) {
+	user1 := createRandomUser(t)
+	user2, err := testQueries.GetUser(context.Background(), user1.Username)
 	require.NoError(t, err)
-	require.NotEmpty(t, account2)
-	require.Equal(t, account1, account2)
+	require.NotEmpty(t, user2)
+	require.Equal(t, user1, user2)
 }
 
-func TestUpdateAccount(t *testing.T) {
+func TestUpdateUser(t *testing.T) {
 	account1 := createRandomAccount(t)
 	arg := UpdateAccountParams{
 		ID:      account1.ID,
@@ -55,7 +56,7 @@ func TestUpdateAccount(t *testing.T) {
 	require.WithinDuration(t, account1.CreatedAt, account2.CreatedAt, time.Second)
 }
 
-func TestDeleteAccount(t *testing.T) {
+func TestDeleteUser(t *testing.T) {
 	account1 := createRandomAccount(t)
 	err := testQueries.DeleteAccount(context.Background(), account1.ID)
 	require.NoError(t, err)
@@ -65,7 +66,7 @@ func TestDeleteAccount(t *testing.T) {
 	require.Empty(t, account2)
 }
 
-func TestListAccount(t *testing.T) {
+func TestListUser(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		createRandomAccount(t)
 	}
