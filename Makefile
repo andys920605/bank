@@ -35,5 +35,6 @@ mock:
 	mockgen -package mock -destination db/mock/store.go bank/db/sqlc Store
 # 紀錄指令
 # 創建升級 migration migrate create -ext sql -dir db/migration -seq add_users
+# build image  docker build -t simplebank:latest .
 
 .PHONY:postgres createdb dropdb migrateup migrateup1 migratedown migratedown1 sqlc test postgresTerminal server mock
